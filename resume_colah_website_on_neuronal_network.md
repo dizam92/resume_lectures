@@ -43,11 +43,11 @@ Mais les LSTMs ont une structure particulière qui est constituer de 4 single ne
     * Addition: Avec le input gate layer
 
 2. **Forget fate layer**: Permet de décider quelle information on jete. Prends h_(t-1) et x_t puis applique une **sigmoid** pour sortir un nombre entre 0 et 1 pour chaque nombre dans la cellule C_(t-1)
-    * f_t = sigma(W_f . [h_(t-1), x_t] = b_f)
+    * **f_t = sigma(W_f . [h_(t-1), x_t] = b_f)**
     
 3. **input gate layer**: Constituer de 2 parties: 
-    * Une sigmoid qui permet de décider quelle valeurs il faut mettre à jour: i_t = sigma(W_i . [h_(t-1), x_t] + b_i)
-    * Une tanh qui créé le vecteurs des nouvelles valeurs candidates à ajouter à la state cell: Ĉ_t = tanh(W_C . [h_(t-1), x_t] + b_C)
+    * Une sigmoid qui permet de décider quelle valeurs il faut mettre à jour: **i_t = sigma(W_i . [h_(t-1), x_t] + b_i)**
+    * Une tanh qui créé le vecteurs des nouvelles valeurs candidates à ajouter à la state cell: **Ĉ_t = tanh(W_C . [h_(t-1), x_t] + b_C)**
 
 4. Il faut par la suite réellement procéder à l'update: **C_t = f_t * C_(t-1) + i_t * Ĉ_t**
 
@@ -64,3 +64,27 @@ Il existe plusieurs variantes des LSTMs dont l'une des plus populaires actuellem
 2. Ils mergent le cell state et le hidden state également.
 Ca simplifie les LSTms. 
     
+
+Résumé de [http://colah.github.io/posts/2015-08-Backprop/]
+----------------------------------------------------------
+----------------------------------------------------------
+
+1. Les réseaux de Neurones peuvent être considérer comme un graphe computationel
+2. L'objectif de la descente de la backpropagation est techniquement juste de calculer des dérivées et mettre à jour les poids
+3. **Dérivées Partielles**: On Veut savoir à quel point une variable influence le résultat. Si v1 cahnge un peu, à quel point v2 cahnge? 
+4. **Forward-mode differentiation** ou **forward propagation** permet de calculer comment une **entrée** (input) affecte chaque noeud
+5. **Reverse-mode differentiation** ou **back-propagation** permet d'étudier comment chaque noeud affecte la **sortie**
+    * L'avantage de celà est surtout qu'en un coup on a les dérivées partielles par rapport à **tous** les paramètres contrairement à la forward propagation
+    
+
+Résumé de [http://colah.github.io/posts/2015-09-NN-Types-FP/]
+-------------------------------------------------------------
+-------------------------------------------------------------
+C'est un article résumé global. Il donne quelques insights particuliers que l'on peut noter comme suit:
+
+1. **Encoding Recurrent Neural Networks**: Ce sont juste des folds (contenants?) qui permettent généralement au réseau de neurones de prendre en entrée des objets de longueurs différentes. Ex: Les phrases
+2. **Generating Recurrent Neural Networks**: Ce sont des décodeurs généralement. Beaucoup plus focus sur la sortie. Permettent au réseau de produire une liste en sortie. Ex: produire des mots d'une phrase.
+3. **General Recurrent Neural Networks**: On peut voir ca comme un mix des *Encodings* et  *Genereting*. On les utilise souvent pour faire une prédiction dans une séquence. Ex: Dans le voice recognition, on veut pouvoir prédire un phénome à chaque fois qu'il y a un input audio en se basant sur le contexte. 
+4. **Bidirectional Recursive Neural Networks**: Voir l'article *NEURAL MACHINE TRANSLATION BY JOINTLY LEARNING TO ALIGN AND TRANSLATE* [https://arxiv.org/pdf/1409.0473.pdf] pour plus de détails. Mais en bref, c'est un GRNN dans les 2 sens permettant de tenir compte du contexte passé et du futur.
+5. **Convolutional Neural Networks**: Le principe est d'appliquer une fonction à un ensemble d'éléments dans une fenêtre: on parle de mapping to the neighboring elements. Ceci donne un encoding généralement appelé embedding? Ca marche beaucoup en computer vision. 
+6. **Recursive Neural Networks (“TreeNets”)**: une généralisation des folds. Surtout utilisé en NLP, par exemple en analyse syntaxique pour permettre de construire les arbre à partir des mots. Structure bottom up.
